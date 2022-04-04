@@ -1,0 +1,21 @@
+case when ISDATE(createddate)=0 then 
+CAST(CAST(createddate AS FLOAT) -2 AS datetime)
+else cast(createddate as datetime) End
+
+
+---------------------------------Check Name----------------------------------------
+
+ISNULL(NULLIF(Usr.FirstName, '') + ' ', '')+ISNULL(NULLIF(Usr.MiddleName, '') + ' ', '')
++ISNULL(NULLIF(Usr.LastName, '') + '', '') AS Name
+
+
+-----------------------------------Stuff-------------------------------------------
+
+(
+SELECT Stuff((SELECT '- ' + Column_Name
+FROM  Table1 t1 
+Inner Join Table2 t2 On t2.ID=t1.ID
+Left Join Table3 t3 on t3.ID=t2.ID
+	
+FOR xml path(''), type).value('.', 'nVARCHAR(MAX)'), 1, 1 , '')
+) As Final_Column_Name
