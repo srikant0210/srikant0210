@@ -1,0 +1,21 @@
+--------------------------Insert Records From excel sheet Data query-----------------------------------------------
+-----For Using in DATABASE
+1st Way to do---
+
+select 'insert Into Employee
+Values('+Cast(id as varchar(max))+','''+Name+''')
+' from Employee
+
+2nd Way to do----
+
+A.Expand Your Database
+B.Go to Specific Database And Right Click on The Table in Which Data has to be inserted
+C. Click on Edit Top 200 Rows (As per your Requirement)
+D. Select All Data And Copy From The Excel Sheet
+Note: Data in Excel Sheet Must be Arranged as per the Columns in the Table
+E.Now Right Click On * Mark and Select Paste Option
+
+
+------For Using in Excel
+
+=CONCATENATE(" Insert Into Employee Values('",A2,"','",B2,"') ")
