@@ -1,3 +1,5 @@
+--------------Date conversion from Text to Date-----------------------------------
+
 case when ISDATE(createddate)=0 then 
 CAST(CAST(createddate AS FLOAT) -2 AS datetime)
 else cast(createddate as datetime) End
