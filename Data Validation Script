@@ -1,0 +1,117 @@
+-----------Varchar types
+
+--"Insert Into DataValidationTableLandScribe
+Select 
+Id as UniqueId,
+'Canada' as TableName,
+'Legal' as ColumnName,
+ Legal as ColumnData,
+'Length of the column should be under 536870912 char' as ErrorMessage
+,GETDATE() AS DataValidationDate
+from Mig_TableName
+Where len(ltrim(rtrim(Legal)))>536870912"                   
+
+
+-------or (ltrim(rtrim(Country))) IN ('USA','Canada')
+
+
+
+-----------------------------Bit value -----------------------------------------------
+
+"Insert Into DataValidationTableLandScribe
+Select 
+Id as UniqueId,
+'TableName' as TableName,
+'IsEmergency' as ColumnName,
+ IsEmergency as ColumnData,
+'Length of the column should be under 1 digit Like 0 and 1' as ErrorMessage
+,GETDATE() AS DataValidationDate
+from Mig_TableName
+Where len(ltrim(rtrim(IsEmergency)))>1 AND ISNUMERIC(IsEmergency)=0 AND IsEmergency IS NOT NULL"
+
+---------------DateTime-------------------------------------------------------------------
+
+"Insert Into DataValidationTableLandScribe
+Select 
+Id as UniqueId,
+'Vestings' as TableName,
+'RecordedDate' as ColumnName,
+ RecordedDate as ColumnData,
+'Date Should be a Valid Date' as ErrorMessage
+,GETDATE() AS DataValidationDate
+from Mig_Vestings
+Where ISDATE(RecordedDate)=0"
+
+---------------------------Bigint-----------------------------
+
+"Insert Into DataValidationTableLandScribe
+Select 
+Id as UniqueId,
+'Information' as TableName,
+'StateId' as ColumnName,
+ StateId as ColumnData,
+'Data Should Not Contain Any Text and should be of lenght not exceeding 20 digits' as ErrorMessage
+,GETDATE() AS DataValidationDate
+from Mig_Information
+Where ISNUMERIC(StateId)=0 AND StateId IS NOT NULL AND len(ltrim(rtrim(StateId)))>20
+
+
+
+"Insert Into DataValidationTableLandScribe
+select 
+Id as UniqueId,
+'LDetails' as TableName,
+'StateId' as ColumnName,
+ StateId as ColumnData,
+'This state is not available in master states table' as ErrorMessage
+,GETDATE() AS DataValidationDate
+from Mig_LDetails
+where rtrim(ltrim([StateId])) not in (Select statename from dbo.states 
+							union Select Abbreviation from dbo.states)"
+
+
+--------------------CountyID
+
+"Insert Into DataValidationTableLandScribe
+select 
+Id as UniqueId,
+'Location' as TableName,
+'CntyId' as ColumnName,
+ CntyId as ColumnData,
+'This Cnty is not available in master Cnties table' as ErrorMessage
+,GETDATE() AS DataValidationDate
+from Mig_LocationCountyMunicipality
+where rtrim(ltrim([CntyId])) not in (Select CntyName from dbo.Cnties)"
+
+----------------Country-------------------------
+
+select distinct  ad.*,
+'[STATE] ->The data need to is not available in master States' as ErrorMessage
+from TableName ad 
+where rtrim(ltrim(ad.[OWNER 1 STATE])) not in (Select statename from DBName.dbo.states 
+							union Select Abbreviation from Dbname.dbo.states)
+							
+							
+"Insert Into DataValidationTableLandScribe
+Select 
+Id as UniqueId,
+'Addresses' as TableName,
+'Country' as ColumnName,
+ Country as ColumnData,
+'Length of the column should be under 100 char and Country Should be USA or Canada' as ErrorMessage
+,GETDATE() AS DataValidationDate
+from Mig_Addresses
+Where len(ltrim(rtrim(Country)))>100" or (ltrim(rtrim(Country))) IN ('USA','Canada')
+
+--------------------Numeric Data types
+
+"Insert Into DataValidationTableLandScribe
+Select 
+Id as UniqueId,
+'TableName' as TableName,
+'Amount' as ColumnName,
+ Amount as ColumnData,
+'Data Should be of Numeric Type' as ErrorMessage
+,GETDATE() AS DataValidationDate
+from Mig_TableName
+Where ISNUMERIC(Amount)=0 AND Amount IS NOT NULL"
