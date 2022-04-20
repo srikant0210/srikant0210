@@ -80,7 +80,7 @@ Id as UniqueId,
  CntyId as ColumnData,
 'This Cnty is not available in master Cnties table' as ErrorMessage
 ,GETDATE() AS DataValidationDate
-from Mig_LocationCountyMunicipality
+from Mig_Location
 where rtrim(ltrim([CntyId])) not in (Select CntyName from dbo.Cnties)"
 
 ----------------Country-------------------------
@@ -88,7 +88,7 @@ where rtrim(ltrim([CntyId])) not in (Select CntyName from dbo.Cnties)"
 select distinct  ad.*,
 '[STATE] ->The data need to is not available in master States' as ErrorMessage
 from TableName ad 
-where rtrim(ltrim(ad.[OWNER 1 STATE])) not in (Select statename from DBName.dbo.states 
+where rtrim(ltrim(ad.[OWNR 1 STATE])) not in (Select statename from DBName.dbo.states 
 							union Select Abbreviation from Dbname.dbo.states)
 							
 							
