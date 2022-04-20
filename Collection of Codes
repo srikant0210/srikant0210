@@ -21,3 +21,16 @@ Left Join Table3 t3 on t3.ID=t2.ID
 	
 FOR xml path(''), type).value('.', 'nVARCHAR(MAX)'), 1, 1 , '')
 ) As Final_Column_Name
+
+
+
+---------------Employees Name in same Row with same DeptName Query Using Stuff and xml
+SELECT 
+ D1.Name,
+Count(E1.FirstName) As EmployeesCount,
+Stuff((Select ',' + FirstName+' '+(Case When MiddleName='' Then LastName else MiddleName+' '+LastName End)
+From Employees1 E2 Where E2.DeptId=E1.DeptId For XML PATH ('')),1,1,'') As EmployeeName
+FROM Employees1 E1
+Left JOIN Department D1 ON 
+E1.DeptId = D1.Id
+Group By Name,DeptId
